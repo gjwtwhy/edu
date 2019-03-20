@@ -1,6 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
+ * 单例类，只实现数据库连接
  * User: guoju
  * Date: 2019/3/19
  * Time: 10:46

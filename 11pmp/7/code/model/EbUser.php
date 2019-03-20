@@ -7,9 +7,5 @@
  */
 include 'eb/Model.php';
 class EbUser extends Model{
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_table = 'eb_user';
-    }
+
 }

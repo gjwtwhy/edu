@@ -1,6 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
+ * 常规的数据库操作，链式操作
  * User: guoju
  * Date: 2019/3/19
  * Time: 10:56
@@ -24,6 +24,26 @@ class Model
     {
         $db = Db::getInstance();
         $this->_db = $db::connect();
+        $class_name = get_called_class();
+        $this->_doTableName($class_name);
+    }
+
+    /**
+     * 处理类名-表名对应,赋值给成员属性_table
+     */
+    private function _doTableName($class_name){
+        $t = $class_name[0];
+        $n = strlen($class_name);
+        for ($i=1;$i<$n;$i++){
+            $asc = ord($class_name[$i]);
+            if ($asc>=65 && $asc<=90){
+                $t.='_'.$class_name[$i];
+            } else {
+                $t.=$class_name[$i];
+            }
+        }
+        $t = strtolower($t);
+        $this->_table = $t;
     }
 
     /**
