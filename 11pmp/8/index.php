@@ -16,14 +16,17 @@ function GetUglyNumber_Solution($index){
     $num = 1;//数量
     $value = 1;//值
     while (true){
+        if ($num==$index){
+            return $value;
+        }
+
         $value++;//判定2，3, 4
+
         //判定是不是丑数，是 数量+1
         if (is_ugly($value)){
             $num ++;
         }
-        if ($num==$index){
-            return $value;
-        }
+
     }
 }
 
