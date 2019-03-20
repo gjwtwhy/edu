@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="jquery.min.js"></script>
+</head>
+<body>
+距离2020年1月1日，还有<span id="day"></span>天<span id="hour"></span>小时<span id="minute"></span>分钟<span id="second"></span>秒
+<input type="hidden" id="nowtime">
+<script>
+    $(function () {
+        //从服务器获取时间
+        $.ajax({
+            url:'time.php',
+            type:'get',
+            data:{},
+            dataType:'json',
+            success:function (e) {
+                $("#nowtime").val(e.time);
+                setTimeout(settime,1000);
+            }
+        });
+    })
+
+    function settime() {
+        //当前时间
+        // var d = new Date();
+        // var t = d.getTime();//当前毫秒数
+        var t = $("#nowtime").val();
+
+        //结束时间
+        var str="2019/3/21 14:00:00";
+        var e = new Date(str);
+        var et = e.getTime();//结束日期的毫秒数
+        //时间差计算
+        var difftime = (et-t)/1000;//得到差的秒
+        //alert(difftime);
+        var d,h,m,s;//定义变量存储
+        if(difftime>0){
+            d = Math.floor(difftime/60/60/24);
+            h = Math.floor(difftime/60/60%24);
+            m = Math.floor(difftime/60%60);
+            s = Math.floor(difftime%60);
+        }
+        $("#day").html(d);
+        $("#hour").html(h);
+        $("#minute").html(m);
+        $("#second").html(s);
+
+        var n = parseInt(t)+1000;
+        $("#nowtime").val(n);
+        setTimeout(settime, 1000);
+    }
+</script>
+</body>
+</html>
