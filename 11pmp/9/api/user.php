@@ -16,15 +16,46 @@ include "model/EbUser.php";
 $method = $_SERVER['REQUEST_METHOD'];
 $m = strtolower($method);
 $m = "user".ucfirst($m);
-$list = $m();
+$m();
+
+/**
+ * //封装接口输出方法
+ * @param $data 数据
+ * @param int $status 状态
+ * @param string $message 错误信息
+ */
+function output($data, $status=200,$message=''){
+    echo json_encode([
+        'status'=>$status,
+        'message'=>$message,
+        'data'=>$data
+    ]);
+    exit;
+}
 
 /**
  * 列表
  */
 function userGet(){
+    //接收页码
+    $page = isset($_GET['p'])?$_GET['p']:1;
+    $pageNum = 2;
+    $offset = ($page-1)*$pageNum;
+    //获取数据库数据
     $objUser = new EbUser();
-    $list = $objUser->select();
-    return $list;
+    $row = $objUser->fields('count(id) as num')->find();
+    $totalNum = $row['num'];
+    $totalPage = ceil($totalNum/$pageNum);
+
+    //分页数据
+    $list = $objUser->fields('*')->limit($pageNum,$offset)->order('id','desc')->select();
+
+    $data = [
+        'list'=>$list,
+        'totalPage'=>$totalPage,
+        'page'=>$page
+    ];
+    output($data);
 }
 
 /**

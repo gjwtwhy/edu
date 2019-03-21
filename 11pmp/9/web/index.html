@@ -3,10 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script type="text/javascript" src="jquery.min.js"></script>
 </head>
 <body>
-<form action="../api/index.php" method="post">
-    <input type="submit" value="提交">
-</form>
+<table id="tlist">
+    <tr>
+        <td>编号</td>
+        <td>用户名</td>
+    </tr>
+</table>
+<script>
+    $(function () {
+        getList(1);
+    })
+
+    function getList(p) {
+        $.ajax({
+            url:'http://08b.gj.com/9/api/user.php',
+            type:'get',
+            data:{'p':p},
+            dataType:'json',
+            success:function (e) {
+                $("#tlist").empty();
+                var tr = '';
+                $.each(e.data.list,function (i, v) {
+                    tr += "<tr><td>"+v.id+"</td><td>"+v.username+"</td></tr>";
+                });
+                //分页
+                tr+="<tr colspan='2'><td>";
+                for(var k=1;k<=e.data.totalPage;k++){
+                    tr+= "<a href='#' onclick='getList("+k+")'>"+k+"</a>&nbsp;&nbsp;";
+                }
+                tr+="</td></tr>";
+                //alert(tr);
+                $("#tlist").append(tr);
+            }
+        })
+    }
+</script>
 </body>
 </html>

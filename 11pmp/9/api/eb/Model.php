@@ -105,6 +105,7 @@ class Model
 
     public function find(){
         $sql = 'select '.$this->_fields.' from '.$this->_table.' '.$this->_join.' '.$this->_group.' '.$this->_where.' '.$this->_order.' '.$this->_limit;
+
         return $this->_db->query($sql)->fetch();
     }
 
