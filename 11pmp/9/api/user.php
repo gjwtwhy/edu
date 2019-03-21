@@ -24,7 +24,7 @@ $m();
  * @param int $status 状态
  * @param string $message 错误信息
  */
-function output($data, $status=200,$message=''){
+function output($data=[], $status=200,$message=''){
     echo json_encode([
         'status'=>$status,
         'message'=>$message,
@@ -67,8 +67,12 @@ function userPost(){
     //参数验证
     //数据库处理
     $objUser = new EbUser();
-    $objUser->add($data);
-    return "post";
+    $flag = $objUser->add($data);
+    if ($flag){
+        output();
+    } else {
+        output([],4001,'添加用户失败');
+    }
 }
 
 /**
