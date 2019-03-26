@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="md5.js"></script>
+    <script src="ksort.js"></script>
+</head>
+<body>
+<input type="button" value="发送请求" onclick="add()">
+<script>
+    var api_url = "http://08b.gj.com/12/api/index.php";
+    var token = '123456';
+    function add() {
+        //时间戳
+        var d = new Date();
+        var t = Math.floor(d.getTime()/1000);
+        //随机字符串
+        var r = getstr();
+        //token
+        //三个顺序拼接
+        var s = [t,r,token];
+        //ksort(s);
+        var s = s.join('',s);
+        //alert(s);return false;
+        //md5编码
+        var sign = $.md5(s);
+        $.ajax({
+            url:api_url,
+            type:'get',
+            data:{'signature':sign,'timestamp':t,'nonce':r},
+            dataType:'json',
+            success:function (e) {
+                alert(e.status);
+            }
+        })
+    }
+
+    function getstr() {
+        var str = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+        var rs = '';
+        for(var i=0;i<5;i++){
+            var r = Math.floor(Math.random()*str.length-1);
+            rs += str[r];
+        }
+        return rs;
+    }
+</script>
+</body>
+</html>
