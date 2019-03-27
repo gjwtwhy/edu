@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
+</head>
+<body>
+<a href="#" onclick="add();">点击按钮</a>
+<script>
+    function add() {
+        $.ajax({
+            url:'http://api.web.com/13/api/jsonp.php',
+            type:'get',
+            data:{},
+            dataType: "jsonp",
+            jsonp: "callback",
+            success:function (e) {
+                console.log(e);
+            }
+        })
+    }
+</script>
+</body>
+</html>
