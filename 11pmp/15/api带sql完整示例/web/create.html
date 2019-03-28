@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<form method="post" id="formData">
+    <table>
+        <tr>
+            <td>班级</td>
+            <td><input type="text" name="classname"></td>
+        </tr>
+        <tr>
+            <td>姓名</td>
+            <td><input type="text" name="name"></td>
+        </tr>
+        <tr>
+            <td>科目</td>
+            <td><input type="text" name="subject"></td>
+        </tr>
+        <tr>
+            <td>年龄</td>
+            <td><input type="text" name="age"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="button" value="添加" onclick="addNews();"></td>
+        </tr>
+    </table>
+</form>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/api.js"></script>
+<script>
+    /**
+     * 添加数据
+     */
+    function addNews() {
+        var url = API_URL+'?a=add';
+        var form = $('#formData');
+        var formData = form.serializeArray();   //jquery 中 获取表单中元素的值
+        var param = getFormData(formData);
+        console.log(param);return false;
+        sendAjax('post',url,param,function (e) {
+            if(e.Code == 1){
+                location.href = WEB_URL+'index.html';
+                return true;
+            } else {
+                alert(e.Message);
+                return false;
+            }
+        })
+    }
+
+    function getFormData(data) {
+        var param = {};
+        for (var i = 0; i < data.length; i++) {
+            param[data[i]['name']] = data[i]['value'];
+        }
+        return param;
+    }
+</script>
+</body>
+</html>

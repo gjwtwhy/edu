@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<table align="center" border="1" id="tlist">
+    <tr>
+        <td colspan="5">
+            <a href="create.html">添加</a>
+        </td>
+    </tr>
+    <tr>
+        <td>ID</td>
+        <td>班级</td>
+        <td>姓名</td>
+        <td>科目</td>
+        <td>年龄</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/api.js"></script>
+<script>
+    /**
+     * 页面加载后请求列表数据
+     */
+    $(function () {
+        showIndexList();
+    });
+
+    /**
+     * 显示首页列表内容
+     * @param e
+     */
+    function showIndexList() {
+        var url = API_URL+'?a=list';
+        sendAjax('get',url,{},function (e) {
+            if(e.Code==1){
+                //对结果循环输出
+                $.each(e.Data,function(i,val){
+                    var tb='<tr>';
+                    tb+='<td>'+val.id+'</td>';
+                    tb+='<td>'+val.classname+'</td>';
+                    tb+='<td>'+val.name+'</td>';
+                    tb+='<td>'+val.subject+'</td>';
+                    tb+='<td>'+val.age+'</td>';
+                    tb+= '</tr>';
+                    $("#tlist").append(tb);
+                });
+            }else{
+                alert(e.message);
+            }
+        });
+    }
+</script>
+</body>
+</html>

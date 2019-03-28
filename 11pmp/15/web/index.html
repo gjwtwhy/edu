@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/api.js"></script>
+</head>
+<body>
+<table id="tlist">
+    <tr>
+        <td>ID</td>
+        <td>姓名</td>
+        <td>班级</td>
+        <td>学科</td>
+        <td>年龄</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+<script>
+    $(function () {
+        getList();
+    })
+
+    function getList() {
+        var params = {'page':1,'aaa':'','bbb':'hello'};
+        sendAjax('index.php','get',params,function (e) {
+            if(e.status==200){
+                console.log(e.data);
+                var t = '';
+                $.each(e.data,function (i, v) {
+                    t+='<tr>';
+                    t+='<td></td><td>'+v.name+'</td><td></td><td></td><td></td>';
+                    t+='</tr>';
+
+                });
+                $("#tlist").append(t);
+            }
+        })
+    }
+</script>
+</body>
+</html>
