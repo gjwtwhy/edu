@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>ID</td>
+        <td>标题</td>
+        <td>点击量</td>
+        <td>操作</td>
+    </tr>
+    <?php
+foreach($data['list'] as $k=>$v){
+    ?>
+    <tr>
+        <td><?php echo $v['id'];?></td>
+        <td><?php echo $v['title'];?></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <?php }?>
+</table>
+</body>
+</html>
