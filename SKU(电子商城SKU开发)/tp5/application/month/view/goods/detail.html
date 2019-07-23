@@ -1,0 +1,71 @@
+{include file='public/header'}
+<div class="container">
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        欢迎来购物
+    </div>
+</nav>
+<div class="col-sm-3">
+    <img src="__STATIC__/{$info.pic}" width="150px;"/>
+</div>
+<div class="col-sm-9">
+    <table class="table" id="tlist">
+        <tbody>
+        <tr>
+            <td>
+                商品标题：{$info.name}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                商品价格:<span id="price">{$attr.default_price}</span>(库存：<span id="stock">{$attr.default_stock}</span>）
+            </td>
+        </tr>
+        {volist name='attr.list' id='vo'}
+        <tr>
+            <td>
+                {$vo.name} &nbsp;&nbsp;&nbsp;
+                {volist name='vo.v' id='vv'}
+                <span v="{$vv.id}" class="a_{$vo.id}" id="v_{$vv.id}"
+                      {if $vv.is_default}
+                      style="color: #1f90d8"
+                      {/if}
+                      onclick="showprice({$vo.id},{$vv.id})">{$vv.name}</span>&nbsp;&nbsp;
+                {/volist}
+            </td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+</div>
+<script>
+function showprice(g_id, v_id) {
+    //设置选中项
+    $(".a_"+g_id).removeAttr('style');
+    $("#v_"+v_id).attr('style','color:#1f90d8');
+
+    //获取选中项的值
+    var ids = [];
+    var goods_id = {$info.id};
+    $("span").each(function () {
+        if($(this).attr('style')) {
+            ids.push($(this).attr('v'));
+        }
+    });
+    // console.log(ids);return false;
+    var ids = ids.join(',');
+    // console.log(ids);return false;
+
+    $.ajax({
+        'url':'{:url("goods/getprice")}',
+        'type':'post',
+        'data':{'v_ids':ids,'id':goods_id},
+        'dataType':'json',
+        'success':function (e) {
+            $("#price").html(e.data.price);
+            $("#stock").html(e.data.stock);
+        }
+    })
+}
+</script>
+</div>

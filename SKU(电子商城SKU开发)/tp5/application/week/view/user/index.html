@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="__STATIC__/js/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+<table id="tlist">
+    <thead>
+    <tr>
+        <td><input type="checkbox" id="ckall"></td>
+        <td>ID</td>
+        <td>用户名</td>
+        <td>性别</td>
+        <td>手机</td>
+        <td>邮箱</td>
+        <td>地址</td>
+        <td>加入时间</td>
+        <td>状态</td>
+        <td>操作</td>
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+<script>
+    $(function () {
+        ajaxList(1);
+        $("#ckall").click(function () {
+            if($(this).prop('checked')){
+                $('.ck_uid').each(function () {
+                    $(this).prop('checked',true);
+                })
+            } else {
+                $('.ck_uid').each(function () {
+                    $(this).prop('checked',false);
+                })
+            }
+        })
+    })
+
+    function ajaxList(p) {
+        $.ajax({
+            url:'{:url("user/ajaxlist")}',
+            type:'post',
+            data:{p:p},
+            dataType:'json',
+            success:function (e) {
+                //清空当前页
+                $("#tlist tbody").empty();
+                //当前页数据
+                var tr = '';
+                //循环拼接
+                $.each(e.data.list,function (i,v) {
+                    tr += '<tr>';
+                    tr += '<td><input type="checkbox" class="ck_uid" value="'+v.id+'"/></td>';
+                    tr += '<td>'+v.id+'</td>';
+                    tr += '<td>'+v.username+'</td>';
+                    tr += '<td>'+v.sex+'</td>';
+                    tr += '<td>'+v.mobile+'</td>';
+                    tr += '<td>'+v.email+'</td>';
+                    tr += '<td>'+v.address+'</td>';
+                    tr += '<td>'+v.create_time+'</td>';
+                    tr += '<td>'+v.status+'</td>';
+                    tr += '<td><a href="#" onclick="delone('+v.id+')">删除</a></td>';
+                    tr += '</tr>';
+                })
+
+                //页面赋值
+                $("#tlist tbody").append(tr);
+
+                //分页处理显示
+                var tr = '<tr><td colspan="10">';
+                tr += '<input type="button" value="批删" onclick="delall()">';
+                //计算前一页
+                if(p>1){
+                    var prepage = p-1;
+                    tr += '<a href="#" onclick="ajaxList('+prepage+');">上一页</a>';
+                } else {
+                    tr += '上一页';
+                }
+
+
+                for(var i=1; i<=e.data.totalPage;i++){
+                    tr += '<a href="#" onclick="ajaxList('+i+');">'+i+'</a>  ';
+                }
+
+                //计算后一页
+                if(p<e.data.totalPage){
+                    var lastpage = p+1;
+                    tr += '<a href="#" onclick="ajaxList('+lastpage+');">下一页</a>';
+                } else {
+                    tr += '下一页';
+                }
+
+                tr += '</td></tr>';
+                $("#tlist tbody").append(tr);
+            }
+        })
+    }
+
+    function delone(id){
+        $.ajax({
+            url:'{:url("user/del")}',
+            type:'post',
+            data:{'id':id},
+            dataType:'json',
+            success:function (e) {
+                if(e.code==200){
+                    alert('删除成功');
+                    ajaxList(1);
+                }
+            }
+        })
+    }
+
+    function delall() {
+        var ids = [];
+        $('.ck_uid').each(function () {
+            if($(this).prop('checked')){
+                ids.push($(this).val());
+            }
+        })
+
+        $.ajax({
+            url:'{:url("user/del")}',
+            type:'post',
+            data:{'id':ids},
+            dataType:'json',
+            success:function (e) {
+                if(e.code==200){
+                    alert('删除成功');
+                    ajaxList(1);
+                }
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

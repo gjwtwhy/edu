@@ -1,0 +1,29 @@
+{include file='public/header'}
+<div class="container">
+<nav class="navbar navbar-default">
+    <div class="navbar-header">
+        欢迎登陆
+    </div>
+</nav>
+<div class="col-xs-3">
+<ul>
+    {volist name='list' id='vo'}
+    <li>{$vo.name}
+        <ul>
+            {volist name='vo.child' id='vv'}
+            <li><a href="{:url($vv.ca)}" target="center"> {$vv.name}</a></li>
+            {/volist}
+        </ul>
+    </li>
+    {/volist}
+    <li><a href="{:url('login/logout')}">退出系统</a> </li>
+</ul>
+</div>
+<div class="col-lg-9">
+    <iframe name="center" src="{:url('power/index')}" frameborder="0" height="800px" width="80%">
+
+    </iframe>
+</div>
+</div>
+</body>
+</html>

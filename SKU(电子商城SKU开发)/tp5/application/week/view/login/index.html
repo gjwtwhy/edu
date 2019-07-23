@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="__STATIC__/js/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>用户名</td>
+        <td><input type="text" id="username"></td>
+    </tr>
+    <tr>
+        <td>密码</td>
+        <td><input type="password" id="pwd"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><input type="button" value="提交" onclick="up();"></td>
+    </tr>
+</table>
+<script>
+function up() {
+    var username = $("#username").val();
+    var pwd = $("#pwd").val();
+    $.ajax({
+        url:'{:url("login/login")}',
+        type:'post',
+        data:{username:username,pwd:pwd},
+        dataType:'json',
+        success:function (e) {
+            if(e.code==200){
+                alert('登录成功');
+                location.href='{:url("user/index")}';
+            } else {
+                alert(e.msg);
+                return false;
+            }
+        }
+    })
+}
+</script>
+</body>
+</html>

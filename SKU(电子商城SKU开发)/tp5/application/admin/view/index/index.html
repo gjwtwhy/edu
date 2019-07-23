@@ -1,0 +1,29 @@
+{include file="public/header" /}
+
+<style>
+ .menu li ul{
+     display: none;
+ }
+</style>
+<script>
+$(function () {
+    $('.level1').click(function () {
+        $(this).next().slideDown();
+        $(this).parent().siblings().children('ul').slideUp();
+    })
+})
+</script>
+<ul class="menu">
+    {volist name='list' id='vo'}
+    <li><a href="#" class="level1">{$vo.name}</a>
+        <ul>
+            {volist name='$vo.child' id='cl'}
+            <li>{$cl.name}</li>
+            {/volist}
+        </ul>
+    </li>
+   {/volist}
+</ul>
+
+</body>
+</html>

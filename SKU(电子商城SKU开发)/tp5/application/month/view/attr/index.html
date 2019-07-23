@@ -1,0 +1,19 @@
+{include file='public/header'}
+
+<table>
+    <tr>
+        <td>属性ID</td>
+        <td>所属类目</td>
+        <td>属性名称</td>
+        <td>操作</td>
+    </tr>
+
+    {volist name="list" id="vo"}
+    <tr>
+        <td>{$vo.id}</td>
+        <td>{$vo.cate.name}</td>
+        <td>{$vo.name}</td>
+        <td>修改</td>
+    </tr>
+    {/volist}
+</table>

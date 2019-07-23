@@ -1,0 +1,29 @@
+{include file='public/header'}
+<table class="table">
+    <thead>
+    <tr>
+        <th>合同编号</th>
+        <th>合同金额</th>
+        <th>产品名称</th>
+        <th>业务员</th>
+        <th>支付方式</th>
+        <th>物流方式</th>
+        <th>创建时间</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {volist name='list' id='vo'}
+<tr>
+    <td>{$vo.c_no}</td>
+    <td>{$vo.price}</td>
+    <td>{$vo.product.name}</td>
+    <td>{$vo.sale.name}</td>
+    <td>{$vo.pay.name}</td>
+    <td>{$vo.log.name}</td>
+    <td>{$vo.create_time}</td>
+    <td><a href="{:url('contract/edit',['c_no'=>$vo.c_no])}">修改</a>   删除</td>
+</tr>
+    {/volist}
+    </tbody>
+</table>

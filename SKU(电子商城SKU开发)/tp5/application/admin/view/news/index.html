@@ -1,0 +1,113 @@
+{include file="public/header" /}
+<center>
+    <form action="{:url('news/index')}" method="get">
+<table>
+    <tr>
+        <td colspan="4">
+            <div class="btn-group">
+                <a href="{:url('news/create')}">添加</a>
+            </div>
+                搜索：标题<input type="text" name="book_name">
+            <select name="auther">
+                <option value="">请选择</option>
+                <option value="夜刺">夜刺</option>
+                <option value="醉二三">醉二三</option>
+            </select>
+            <input type="submit" value="搜索">
+        </td>
+    </tr>
+    <tr>
+        <td>ID</td>
+        <td>标题</td>
+        <td>作者</td>
+        <td>操作</td>
+    </tr>
+    {volist name='list' id='vo'}
+    <tr>
+        <td>
+            <input type="checkbox" value="{$vo.book_id}" class="cb">
+            {$vo.book_id}</td>
+        <td>
+            <input type="text" id="t_name_{$vo.book_id}" value="{$vo.book_name}" style="display: none;" onblur="hidetitle({$vo.book_id})"/>
+           <span id="show_name_{$vo.book_id}" onclick="showtitle({$vo.book_id});">{$vo.book_name}</span>
+        </td>
+        <td>{$vo.auther}</td>
+        <td><a href="{:url('news/edit',['book_id'=>$vo.book_id])}">修改</a>  <a href="{:url('news/delete',['book_id'=>$vo.book_id])}">删除</a></td>
+    </tr>
+    {/volist}
+    <tr>
+        <td colspan="4">
+            全选<input type="checkbox" class="cball"/>
+            <input type="button" value="批量删除" onclick="deleteall()">
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            {$list|raw}
+        </td>
+    </tr>
+</table>
+    </form>
+</center>
+<script>
+    function showtitle(id) {
+        $("#t_name_"+id).show();
+        $("#show_name_"+id).hide();
+    }
+    function hidetitle(id) {
+        var title = $("#t_name_"+id).val();
+        $.ajax({
+            url:'{:url("news/editname")}',
+            type:'get',
+            data:{'book_id':id,'book_name':title},
+            dataType:'json',
+            success:function (e) {
+                if(e.code==200){
+                    //修改本页面内容
+                    $("#t_name_"+id).val(title);
+                    $("#show_name_"+id).html(title);
+                    //隐藏显示
+                    $("#t_name_"+id).hide();
+                    $("#show_name_"+id).show();
+                }
+            }
+        })
+    }
+    
+    $(".cball").on('click',function(){
+       if($(this).prop('checked')){
+           $('.cb').each(function (i) {
+               $(this).prop('checked',true);
+           })
+       } else {
+           $('.cb').each(function (i) {
+               $(this).prop('checked',false);
+           })
+       }
+    })
+    function deleteall() {
+        //得到所有选中项的值
+        var ids = [];
+        $('.cb').each(function (i) {
+            if($(this).prop('checked')){
+                ids.push($(this).val());
+            }
+        });
+        //ajax
+        $.ajax({
+            url:'{:url("news/deleteall")}',
+            type:'post',
+            data:{'ids':ids},
+            dataType:'json',
+            success:function (e) {
+                if(e.code==200){
+                    alert('删除成功');
+                    location.href='{:url("news/index")}';
+                    return false;
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>

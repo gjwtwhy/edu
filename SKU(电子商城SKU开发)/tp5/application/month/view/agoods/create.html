@@ -1,0 +1,66 @@
+{include file='public/header'}
+<table class="table">
+    <tr>
+        <td>商品名称</td>
+        <td><input type="text" name="name"></td>
+    </tr>
+    <tr>
+        <td>商品分类</td>
+        <td><select>
+            <option>服装</option>
+            <option>--男装</option>
+            <option>--女装</option>
+        </select></td>
+    </tr>
+    <tr>
+        <td>商品价格</td>
+        <td><input type="text" name="price"></td>
+    </tr>
+    <tr>
+        <td>选择类目</td>
+        <td>
+            <select name="cate_id" onchange="showattr(this)">
+                <option>请选择</option>
+                {volist name='menu' id='v'}
+                <option value="{$v->id}">{$v->name}</option>
+                {/volist}
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            <div id="attr">
+                
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><input type="submit" value="提交"> </td>
+    </tr>
+</table>
+<script>
+    function showattr(cate) {
+        var cate_id = $(cate).val();
+        var url = "/month/agoods/attr.html";
+        $.ajax({
+            url:url,
+            type:'post',
+            data:{cate_id:cate_id},
+            dataType:'json',
+            success:function (e) {
+                var arr = eval(e);
+                var table = "<table>";
+                $.each(arr,function (i,v) {
+                    table += "<tr>";
+                    table += "<td>"+v.name+":<input type='text' name='attr["+v.id+"]'></td>";
+                    table += "</tr>";
+                });
+                table +="<tr><td>多个规格值之间用;号分割（例如：红色;白色;黑色）</td></tr></table>";
+                $("#attr").empty();
+                $("#attr").append(table);
+            }
+        })
+    }
+</script>

@@ -1,0 +1,19 @@
+{include file='public/header'}
+<a href="{:url('agoods/create')}">商品添加</a>
+<table class="table">
+    <tr>
+        <td>商品ID</td>
+        <td>商品名称</td>
+        <td>商品图片</td>
+        <td>操作</td>
+    </tr>
+
+    {volist name="list" id="vo"}
+    <tr>
+        <td>{$vo.id}</td>
+        <td>{$vo.name}</td>
+        <td><img src="/static/{$vo.pic}" width="100px"></td>
+        <td><a href="{:url('agoods/sku')}">sku管理</a> </td>
+    </tr>
+    {/volist}
+</table>

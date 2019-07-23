@@ -1,0 +1,23 @@
+{include file="public/header" /}
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        后台管理系统
+    </div>
+</nav>
+<div class="col-sm-3">
+<ul>
+    <li><a href="{:url('cate/index')}" target="center">分类管理</a></li>
+    <li>商品管理
+    <ul>
+    <li><a href="{:url('goods/index')}" target="center">商品列表</a> </li>
+    <li><a href="{:url('goods/create')}" target="center">商品添加</a></li>
+    </ul>
+    </li>
+    <li>系统管理</li>
+    <li><a href="{:url('user/index')}" target="center">会员管理</a> </li>
+</ul>
+</div>
+<div class="col-sm-9">
+<iframe name="center" src=""  width="100%" height="800px" frameborder="0"></iframe>
+</div>
+{include file="public/footer" /}

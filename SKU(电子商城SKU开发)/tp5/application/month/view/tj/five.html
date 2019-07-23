@@ -1,0 +1,30 @@
+{include file='public/header'}
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            姓名
+        </th>
+        {volist name='date_arr' id='vo'}
+        <th>
+            {$vo}
+        </th>
+        {/volist}
+    </tr>
+    </thead>
+    <tbody>
+    {volist name='saler_arr' id='s'}
+    <tr>
+        <td>
+            {$s}
+        </td>
+        {volist name='date_arr' id='d'}
+        <td>
+           {$price_arr[$d][$s]}
+        </td>
+        {/volist}
+    </tr>
+
+    {/volist}
+    </tbody>
+</table>

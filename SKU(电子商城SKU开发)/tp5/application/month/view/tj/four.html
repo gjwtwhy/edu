@@ -1,0 +1,25 @@
+{include file='public/header'}
+<table class="table">
+    <thead>
+    <tr>
+        <th>产品ID</th>
+        <th>产品名称</th>
+        <th>价格</th>
+    </tr>
+    </thead>
+    <tbody>
+    {volist name='list' id='vo'}
+    <tr>
+        <td>
+            {$vo.product_id}
+        </td>
+        <td>
+            {$vo.name}
+        </td>
+        <td>
+            {$vo.price}
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>

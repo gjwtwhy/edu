@@ -1,0 +1,36 @@
+{include file='public/header'}
+<div class="container">
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        欢迎来购物
+    </div>
+</nav>
+<div class="col-sm-12">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>商品标题</th>
+            <th>商品图片</th>
+            <th>
+                购买
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name='list' id='vo'}
+        <tr>
+            <td>
+                {$vo.name}
+            </td>
+            <td>
+                <img src="__STATIC__/{$vo.pic}" width="150px;"/>
+            </td>
+            <td>
+                <a href="{:url('goods/detail',['id'=>$vo.id])}">购买</a>
+            </td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+</div>
+</div>

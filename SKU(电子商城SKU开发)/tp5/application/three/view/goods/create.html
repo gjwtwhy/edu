@@ -1,0 +1,25 @@
+{include file='public/header'/}
+<form role="form" action="{:url('goods/save')}" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="name">商品名称</label>
+        <input type="text" class="form-control" name="name">
+    </div>
+    <div class="form-group">
+        <label for="cate-id">商品分类</label>
+        <select name="cate_id">
+           <option>菜单一</option>
+            <option>&nbsp;|_菜单二</option>
+            <option>&nbsp;&nbsp;|_菜单三</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="name">商品价格</label>
+        <input type="text" class="form-control" name="price">
+    </div>
+    <div class="form-group">
+        <label for="image">商品图片</label>
+        <input type="file" name="img" />
+    </div>
+    <input type="submit" class="btn btn-default"></button>
+</form>
+{include file='public/footer'/}

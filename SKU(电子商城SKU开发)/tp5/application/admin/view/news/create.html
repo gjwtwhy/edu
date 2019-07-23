@@ -1,0 +1,40 @@
+{include file="public/header" /}
+<div class="container">
+<center>
+    <form action="{:url('news/save')}" method="post" id="addform">
+<table border="1">
+    <tr>
+        <td>标题</td>
+        <td><input type="text" name="book_name" id="book_name"></td>
+    </tr>
+    <tr>
+        <td>作者</td>
+        <td><input type="text" name="auther"></td>
+    </tr>
+    <tr>
+        <td>内容</td>
+        <td><textarea name="desc">
+
+        </textarea></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><input type="button" value="提交" onclick="up()"></td>
+    </tr>
+</table>
+    </form>
+</center>
+</div>
+<script>
+    function up() {
+        var title = $("#book_name").val();
+        if(title==''){
+            alert('标题不能为空');
+            return false;
+        }
+
+        $("#addform").submit();
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+{include file='public/header'/}
+<a href="{:url('user/inexcel')}">excel导入</a>
+
+<form action="{:url('user/index')}" method="post" id="sform">
+    城市:<select name="city_id">
+    <option value="0">请选择</option>
+    <option value="1" {if $city_id eq 1}selected{/if}>北京</option>
+    <option value="2" {if $city_id eq 2}selected{/if}>上海</option>
+    <input type="submit" value="搜索"/>
+    <a href="#" onclick="outexcel()">excel导出</a>
+</select>
+</form>
+
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>用户ID</th>
+        <th>姓名</th>
+        <th>性别</th>
+        <th>年龄</th>
+        <th>地区</th>
+        <th>手机号</th>
+        <th>注册时间</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {volist name='list' id='vo' key='k'}
+    <tr bgcolor="{if $k%2 == 0}red{/if}">
+        <td>{$vo.id}</td>
+        <td>{$vo.name}</td>
+        <td>{$vo.sex}</td>
+        <td>{$vo.age}</td>
+        <td>{$vo.city.name}</td>
+        <td>{$vo.mobile}</td>
+        <td>{$vo.create_time}</td>
+
+        <td></td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+{$list|raw}
+<script>
+    function outexcel() {
+        $("#sform").attr('action','{:url("user/outexcel")}');
+
+        //alert($("#sform").attr('action'));
+        $("#sform").submit();
+    }
+</script>
+{include file='public/footer'/}

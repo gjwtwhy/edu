@@ -1,0 +1,49 @@
+{include file="public/header" /}
+<center>
+<table border="1">
+    <tr>
+        <td>用户名</td>
+        <td><input type="text" id="username"><span id="error_name" style="color: red"></span></td>
+    </tr>
+    <tr>
+        <td>密码</td>
+        <td><input type="password" id="pwd"><span id="error_pwd"></span></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><input type="button" value="提交" onclick="up()"></td>
+    </tr>
+</table>
+</center>
+<script>
+    function up() {
+        var name = $("#username").val();
+        var pwd = $("#pwd").val();
+        if(name == ''){
+            $("#error_name").html('用户名不能为空');
+            return false;
+        }
+        if(pwd == ''){
+            $("#error_pwd").html('密码不能为空');
+            return false;
+        }
+        $.ajax({
+            url:'{:url("login/login")}',
+            type:'post',
+            data:{name:name,pwd:pwd},
+            dataType:'json',
+            success:function (e) {
+                if(e.code!=200){
+                    alert(e.message);
+                    return false;
+                } else {
+                    alert('登录成功');
+                    location.href='{:url("index/index")}';
+                    return true;
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>

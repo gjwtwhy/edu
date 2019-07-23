@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{include file='public/header'}
+<table class="table">
+    <tr>
+        <td>类目ID</td>
+        <td>类目名称</td>
+        <td>操作</td>
+    </tr>
+
+    {volist name="list" id="vo"}
+    <tr>
+        <td>{$vo.id}</td>
+        <td>{$vo.name}</td>
+        <td>修改</td>
+    </tr>
+    {/volist}
+</table>

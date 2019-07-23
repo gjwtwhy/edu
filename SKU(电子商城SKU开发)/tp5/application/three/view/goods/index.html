@@ -1,0 +1,55 @@
+{include file='public/header'/}
+<div>
+    <form action="{:url('goods/index')}" method="post">
+    <table class="table">
+        <tr>
+            <td>
+                分类<select name="cat_id">
+                <option value="0">请选择</option>
+                {volist name='gc' id='vo'}
+                <option value="{$vo.id}">{$vo.name}</option>
+                {/volist}
+            </select>
+                名称：<input type="text" name="name"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                价格：<input type="text" name="low_price">-<input type="text" name="high_price">
+            </td>
+        </tr>
+        <tr>
+            <td><input type="submit" class="btn btn-default"></button></td>
+        </tr>
+    </table>
+</div>
+</form>
+<table class="table">
+    <thead>
+    <tr>
+        <th>商品ID</th>
+        <th>商品分类</th>
+        <th>商品名称</th>
+        <th>价格</th>
+        <th>图片</th>
+        <th>状态</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {volist name='list' id='vo' key='k'}
+    <tr bgcolor="{if $k%2 == 0}red{/if}">
+        <td>{$vo.id}</td>
+        <td>{$vo.gc.name}</td>
+        <td>{$vo.name}</td>
+        <td>{$vo.price}</td>
+        <td><img src="/upload/{$vo.img}" width="30px;"></td>
+        <td>{$vo.status}</td>
+        <td></td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+
+{$list|raw}
+{include file='public/footer'/}

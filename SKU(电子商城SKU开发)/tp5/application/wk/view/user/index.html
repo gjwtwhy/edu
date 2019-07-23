@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="__STATIC__/js/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+<table id="tlist">
+    <thead>
+    <tr>
+        <td><input type="checkbox" id="ck_all"></td>
+        <td>ID</td>
+        <td>用户名</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+<script>
+    $(function () {
+        getPageList(1);
+        //绑定全选，全不选事件
+        $("#ck_all").click(function () {
+            if($(this).prop('checked')){
+                $(".ck_id").each(function () {
+                    $(this).prop('checked',true);
+                })
+            } else {
+                $(".ck_id").each(function () {
+                    $(this).prop('checked',false);
+                })
+            }
+        })
+    })
+
+    function getPageList(p) {
+        //1,ajax向后台发送获取p 页的数据
+        $.ajax({
+            url:'{:url("user/ajaxlist")}',
+            type:'post',
+            data:{p:p},
+            dataType:'json',
+            success:function (e) {
+                $("#tlist tbody").empty();
+
+                //2，构建行数据，赋值table
+                var tr = '';
+                $.each(e.data.list,function (i,v) {
+                    tr += '<tr>';
+                    tr += '<td><input type="checkbox" class="ck_id" value="'+v.id+'"></td>';
+                    tr += '<td>'+v.id+'</td>';
+                    tr += '<td>'+v.username+'</td>';
+                    tr += '<td></td>';
+                    tr += '<td></td>';
+                    tr += '<td></td>';
+                    tr += '<td></td>';
+                    tr += '<td></td>';
+                    tr += '<td></td>';
+                    tr += '<td><a href="#" onclick="ajaxdel('+v.id+')">删除</a></td>';
+                    tr += '</tr>';
+                })
+                $("#tlist tbody").append(tr);
+
+                //3，分页
+                var tr = '<tr><td colspan="10">';
+                tr += '<input type="button" value="批删" onclick="delall()"/>';
+                if(p>1){
+                    var pre = p-1;
+                    tr += '<a href="#" onclick="getPageList('+pre+')">上一页</a>';
+                } else {
+                    tr += '上一页';
+                }
+
+                for(var i=1;i<=e.data.totalPage;i++){
+                    tr += '<a href="#" onclick="getPageList('+i+')">'+i+'</a>   ';
+                }
+
+                if(p<e.data.totalPage){
+                    var last = p+1;
+                    tr += '<a href="#" onclick="getPageList('+last+')">下一页</a>';
+                } else {
+                    tr += '下一页';
+                }
+                tr += '</td></tr>';
+                $("#tlist tbody").append(tr);
+
+            }
+        });
+
+    }
+
+    function ajaxdel(id) {
+        $.ajax({
+            url:'{:url("user/del")}',
+            type:'post',
+            data:{'id':id},
+            dataType:'json',
+            success:function (e) {
+                if(e.code==200){
+                    alert('删除成功');
+                    getPageList(1);
+                }
+            }
+        })
+    }
+    
+    function delall() {
+        var ids = [];
+        //1,获取所有选中的ID
+        $(".ck_id").each(function () {
+            if($(this).prop('checked')){
+                ids.push($(this).val());
+            }
+        })
+
+        ajaxdel(ids);
+    }
+</script>
+</body>
+</html>

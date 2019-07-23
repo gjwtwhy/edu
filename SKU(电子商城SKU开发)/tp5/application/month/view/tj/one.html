@@ -1,0 +1,19 @@
+{include file='public/header'}
+<table class="table">
+    <thead>
+    <tr>
+        <th>销售人员ID</th>
+        <th>名字</th>
+        <th>金额</th>
+    </tr>
+    </thead>
+    <tbody>
+    {volist name='list' id='vo'}
+    <tr>
+        <td>{$vo.saler_id}</td>
+        <td>{$vo.name}</td>
+        <td>{$vo.price}</td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
